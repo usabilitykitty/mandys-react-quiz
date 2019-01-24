@@ -1,0 +1,107 @@
+@import 'scss/variables';
+@import 'scss/colors';
+@import 'scss/mixins';
+
+body {
+  background-color: $body-background;
+}
+
+.page-header {
+  margin-top: 0;
+}
+
+.page-title {
+  color: $title-color;
+}
+
+.container {
+  background-color: $container-background;
+}
+
+.quiz-panel {
+  padding: 1rem 2rem;
+}
+
+.build-pane {
+  @include desktop {
+    border-right: .1rem solid $pane-border;
+  }
+}
+
+.question-box-group {
+  @include flexbox();
+  @include flex-direction(column);
+  padding: 1rem 0 1rem 1rem;
+}
+
+.questions {
+  @include desktop {
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+}
+
+.question {
+  margin-bottom: 2rem;
+  position: relative;
+  border-bottom: .1rem solid $pane-border;
+  padding-bottom: 1rem;
+  
+  &:last-child {
+    border-bottom: 0 none;
+  }
+}
+
+.question-text {
+  text-align: left;
+  padding-right: 4rem;
+  border-bottom: 0 none;
+  margin-bottom: 1rem;
+}
+
+.question-group {
+  @include flexbox();
+}
+
+.input-radio-label {
+  text-align: left;
+  padding-left: 1rem;
+}
+
+.btn-remove {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.option-group {
+  @include flexbox();
+  @include align-items(center);
+  padding-bottom: 1rem;
+}
+
+// Overriding Bootstrap's button colors for improved contrast (accessibilty)
+.btn-danger {
+  background-color: $btn-danger-background;
+  border-color: $btn-danger-border;
+  
+  &:hover, &:focus, &:active {
+    background-color: $btn-danger-hover-background;
+    border-color: $btn-danger-hover-border;
+  }
+}
+
+.App {
+  text-align: center;
+}
+
+.shameless-plug {
+  color: $footer-color;
+  font-size: 1.5rem;
+  vertical-align: middle;
+  padding: 1rem 0;
+}
+
+.logo {
+  max-height: 2.5rem;
+}
