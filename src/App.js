@@ -2,24 +2,28 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import BuildQuiz from './components/BuildQuiz/BuildQuiz';
 import PreviewQuiz from './components/PreviewQuiz/PreviewQuiz';
+import PreviewResults from './components/PreviewResults/PreviewResults';
 import './App.scss';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      currentQuestionId: 0,
       newQuestion: '',
       answer1: '',
       answer2: '',
       answer3: '',
       answer4: '',
-      questions: []
+      questions: [],
+      resultsPreview: []
     };
     
     this.handleChange = this.handleChange.bind(this);
     this.addQuestion = this.addQuestion.bind(this);
     this.deleteQuestion = this.deleteQuestion.bind(this);
     this.deleteAllQuestions = this.deleteAllQuestions.bind(this);
+    this.logAnswer = this.logAnswer.bind(this);
   }
   
   handleChange(event) {
@@ -58,17 +62,18 @@ class App extends Component {
   }
   
   addQuestion() {
+    const currentQuestionId = this.state.currentQuestionId;
+    
     const newQuestion = {
-      id: 1 + Math.random(),
+      id: currentQuestionId,
       value: this.state.newQuestion.slice(),
       answers: [ this.state.answer1, this.state.answer2, this.state.answer3, this.state.answer4 ]
     };
     
-    const questions = [...this.state.questions];
-    
-    questions.push(newQuestion);
+    const questions = [...this.state.questions, newQuestion];
     
     this.setState({
+      currentQuestionId: currentQuestionId + 1,
       questions,
       newQuestion: '',
       answer1: '',
@@ -82,14 +87,32 @@ class App extends Component {
   }
   
   deleteAllQuestions() {
-    this.setState({ questions: [] });
+    this.setState({ questions: [], resultsPreview: [] });
   }
   
   deleteQuestion(id) {
     const questions = [...this.state.questions];
     const updatedQuestions = questions.filter(question => question.id !== id);
+    
+    const results = [...this.state.resultsPreview];
+    
+    const updatedResults = results.filter(result => result.id !== id);
 
-    this.setState({ questions: updatedQuestions });
+    this.setState({ questions: updatedQuestions, resultsPreview: updatedResults });
+  }
+  
+  logAnswer(id, question, answer) {
+    const newResult = {
+      id: id,
+      value: question,
+      answer: answer
+    };
+    
+    const results = this.state.resultsPreview.filter(result => result.id !== id);
+    
+    const updatedResults = [...results, newResult];
+    
+    this.setState({ resultsPreview: updatedResults })
   }
   
   render() {
@@ -101,7 +124,7 @@ class App extends Component {
         <main>
           <div className="container">
             <div className="row quiz-panel">
-              <div className="col-md-6 build-pane">
+              <div className="col-md-4 build-pane">
                 <BuildQuiz 
                   newQuestion={this.state.newQuestion} 
                   handleChange={this.handleChange} 
@@ -111,11 +134,18 @@ class App extends Component {
                   answer3={this.state.answer3}
                   answer4={this.state.answer4} />
               </div>
-              <div className="col-md-6 preview-pane">
+              <div className="col-md-4 preview-pane">
                 <PreviewQuiz
                   questions={this.state.questions}
                   deleteQuestion={this.deleteQuestion}
-                  deleteAllQuestions={this.deleteAllQuestions} />
+                  deleteAllQuestions={this.deleteAllQuestions}
+                  logAnswer={this.logAnswer} />
+              </div>
+              <div className="col-md-4 results-pane">
+                <h2>Preview Results</h2>
+                <PreviewResults 
+                  resultsPreview={this.state.resultsPreview}
+                />
               </div>
             </div>
           </div>

@@ -22,9 +22,10 @@ body {
   padding: 1rem 2rem;
 }
 
-.build-pane {
+.preview-pane {
   @include desktop {
     border-right: .1rem solid $pane-border;
+    border-left: .1rem solid $pane-border;
   }
 }
 
@@ -34,7 +35,8 @@ body {
   padding: 1rem 0 1rem 1rem;
 }
 
-.questions {
+.questions,
+.results {
   @include desktop {
     max-height: 70vh;
     overflow-y: auto;

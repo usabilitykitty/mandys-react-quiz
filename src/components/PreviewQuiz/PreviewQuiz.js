@@ -5,7 +5,7 @@ class PreviewQuiz extends React.Component {
     return (
       <>
         <h2>Preview Quiz</h2>
-        <div class="questions">
+        <div className="questions">
           {this.props.questions !== undefined && this.props.questions.map(question => {
             return (
               <fieldset key={question.id} className="question">
@@ -16,7 +16,7 @@ class PreviewQuiz extends React.Component {
                   if (answer) {
                   return (
                       <div key={`${question.id}-${index}`} className="input-group question-group">
-                        <input id={`${question.id}-${index}`} className="input-radio" type="radio" name={question.id} value={answer} />
+                        <input id={`${question.id}-${index}`} className="input-radio" type="radio" name={question.id} value={answer} onChange={() => this.props.logAnswer(question.id, question.value, answer)} />
                         <label htmlFor={`${question.id}-${index}`} className="input-radio-label">{answer}</label>
                       </div>
                     );
